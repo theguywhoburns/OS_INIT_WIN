@@ -26,22 +26,10 @@ REM Check if the argument is --quick
 if "%~1"=="--quick" (
   set "INTERACTIVE=0"
 ) else if "%~1"=="--help" (
-  echo OS_INIT.bat [args]
-  echo --help -h display THIS
-  echo --quick disable INTERACTIVE mode
-  echo --custom-compiler-installer=[url] set the CUSTOM_COMPILER_SCRIPT_URL
-  echo --compiler=[%AVAILABLE_COMPILERS%] set the current compiler, if CUSTOM_COMPILER_SCRIPT_URL is set, you can specify custom compilers
-  echo RUN run without updating, even if there is new compiler
-  echo any other args will be passed to the download_%%COMPILER%%.bat
+  goto:help
   exit /b 0
 ) else if "%~1"=="-h" (
-  echo OS_INIT.bat [args]
-  echo --help -h display THIS
-  echo --quick disable INTERACTIVE mode
-  echo --custom-compiler-installer=[url] set the CUSTOM_COMPILER_SCRIPT_URL
-  echo --compiler=[%AVAILABLE_COMPILERS%] set the current compiler, if CUSTOM_COMPILER_SCRIPT_URL is set, you can specify custom compilers
-  echo RUN run without updating, even if there is new compiler
-  echo any other args will be passed to the download_%%COMPILER%%.bat
+  goto:help
   exit /b 0
 ) else if "%~1"=="--custom-compiler-installer" (
   if "%~2"=="" (
@@ -149,6 +137,16 @@ exit /B 0
 @REM UTILITY SCRIPTS
 @REM start the function with :<funcname> and end with exit /B 0
 @REM ==========================================================
+
+:help
+echo OS_INIT.bat [args]
+echo --help -h display THIS
+echo --quick disable INTERACTIVE mode
+echo --custom-compiler-installer=[url] set the CUSTOM_COMPILER_SCRIPT_URL
+echo --compiler=[%AVAILABLE_COMPILERS%] set the current compiler, if CUSTOM_COMPILER_SCRIPT_URL is set, you can specify custom compilers
+echo RUN run without updating, even if there is new compiler
+echo any other args will be passed to the download_%%COMPILER%%.bat
+exit /b 0
 
 :download <url> <filename>
 if %2 EQU "" (
