@@ -15,10 +15,9 @@ set "CUSTOM_COMPILER_SCRIPT_URL="
 set "COMPILER=gcc"
 set "VERSION=1"
 
+echo OS_INIT, a single file os development environment for initializer
 goto:ChekUpdate 
 :EndChekUpdate
-
-echo OS_INIT, a single file os development environment for initializer
 
 REM Loop through all arguments using FOR loop
 :loop
@@ -153,11 +152,9 @@ exit /b 0
 :ChekUpdate
 call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/OS_INIT_VERSION.txt" "OS_INIT_VERSION.txt"
 set /p GIT_VERSION=< ./OS_INIT_VERSION.txt
-del OS_INIT_VERSION.txt
-pause
 if "%GIT_VERSION%" GTR "%VERSION%" (
   call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/OS_INIT.bat" "OS_INIT.bat"
-  call OS_INIT.bat %*
+  call OS_INIT.bat
   exit /b errorlevel
 ) else (
   goto:EndChekUpdate
