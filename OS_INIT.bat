@@ -15,7 +15,7 @@ set "CUSTOM_COMPILER_SCRIPT_URL="
 set "COMPILER=gcc"
 set "VERSION=1"
 
-goto:ChekUpdate 
+if not "%~1" == "RUN" goto:ChekUpdate
 :EndChekUpdate
 echo OS_INIT, a single file os development environment for initializer
 
@@ -152,7 +152,6 @@ exit /B %ERR%
 exit /b 0
 
 :ChekUpdate
-if "%~1" == "RUN" goto:EndChekUpdate
 echo Checking for updates...
 call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/OS_INIT_VERSION.txt" "OS_INIT_VERSION.txt"
 set /p GIT_VERSION=< ./OS_INIT_VERSION.txt
@@ -163,9 +162,10 @@ if "%GIT_VERSION%" GTR "%VERSION%" (
   echo Done! Launching updated OS_INIT.bat
   call OS_INIT.bat RUN %*
   exit /b errorlevel
-) else (
-  goto:EndChekUpdate
-)
+) 
+REM Yep
+goto:EndChekUpdate
+
 @REM ==========================================================
 @REM END UTILITY SCRIPTS
 @REM ==========================================================
