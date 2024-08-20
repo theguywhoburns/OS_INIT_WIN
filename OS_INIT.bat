@@ -153,15 +153,13 @@ exit /b 0
 :ChekUpdate
 call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/OS_INIT_VERSION.txt" "OS_INIT_VERSION.txt"
 set /p GIT_VERSION=< ./OS_INIT_VERSION.txt
-echo %GIT_VERSION%
+del OS_INIT_VERSION.txt
 pause
 if "%GIT_VERSION%" GTR "%VERSION%" (
   call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/OS_INIT.bat" "OS_INIT.bat"
-  pause
   call OS_INIT.bat %*
   exit /b errorlevel
 ) else (
-  pause
   goto:EndChekUpdate
 )
 @REM ==========================================================
