@@ -15,9 +15,9 @@ set "CUSTOM_COMPILER_SCRIPT_URL="
 set "COMPILER=gcc"
 set "VERSION=1"
 
-echo OS_INIT, a single file os development environment for initializer
 goto:ChekUpdate 
 :EndChekUpdate
+echo OS_INIT, a single file os development environment for initializer
 
 REM Loop through all arguments using FOR loop
 :loop
