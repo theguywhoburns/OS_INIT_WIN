@@ -35,7 +35,13 @@ if "%~1"=="--quick" (
   echo any other args will be passed to the download_%%COMPILER%%.bat
   exit /b 0
 ) else if "%~1"=="-h" (
-  echo Help message goes here.
+  echo OS_INIT.bat [args]
+  echo --help -h display THIS
+  echo --quick disable INTERACTIVE mode
+  echo --custom-compiler-installer=[url] set the CUSTOM_COMPILER_SCRIPT_URL
+  echo --compiler=[%AVAILABLE_COMPILERS%] set the current compiler, if CUSTOM_COMPILER_SCRIPT_URL is set, you can specify custom compilers
+  echo RUN run without updating, even if there is new compiler
+  echo any other args will be passed to the download_%%COMPILER%%.bat
   exit /b 0
 ) else if "%~1"=="--custom-compiler-installer" (
   if "%~2"=="" (
