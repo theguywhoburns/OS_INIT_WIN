@@ -44,6 +44,8 @@ if "%~1"=="--quick" (
   )
   set COMPILER=%~2
   shift
+) else if "%~1" == "RUN" (
+  REM Pass
 ) else (
   echo ERROR: unknown arg %~1, exiting
   exit /b 1
@@ -150,11 +152,16 @@ exit /B %ERR%
 exit /b 0
 
 :ChekUpdate
+if "%~1" == "RUN" goto:EndChekUpdate
+echo Checking for updates...
 call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/OS_INIT_VERSION.txt" "OS_INIT_VERSION.txt"
 set /p GIT_VERSION=< ./OS_INIT_VERSION.txt
 if "%GIT_VERSION%" GTR "%VERSION%" (
+  echo Update found!
+  echo Downloading...
   call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/OS_INIT.bat" "OS_INIT.bat"
-  call OS_INIT.bat
+  echo Done! Launching updated OS_INIT.bat
+  call OS_INIT.bat RUN %*
   exit /b errorlevel
 ) else (
   goto:EndChekUpdate
