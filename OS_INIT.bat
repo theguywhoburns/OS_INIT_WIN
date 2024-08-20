@@ -6,14 +6,13 @@
 
 setlocal
 
+REM Initialize variables
 REM Define the AVAILABLE_COMPILERS list (example)
 set "AVAILABLE_COMPILERS=gcc clang"
-
-REM Initialize variables
 set "INTERACTIVE=1"
 set "CUSTOM_COMPILER_SCRIPT_URL="
 set "COMPILER=gcc"
-set "VERSION=1"
+set "VERSION=2"
 
 if not "%~1" == "RUN" goto:ChekUpdate
 :EndChekUpdate
@@ -27,7 +26,13 @@ REM Check if the argument is --quick
 if "%~1"=="--quick" (
   set "INTERACTIVE=0"
 ) else if "%~1"=="--help" (
-  echo Help message goes here.
+  echo OS_INIT.bat [args]
+  echo --help -h display THIS
+  echo --quick disable INTERACTIVE mode
+  echo --custom-compiler-installer=[url] set the CUSTOM_COMPILER_SCRIPT_URL
+  echo --compiler=[%AVAILABLE_COMPILERS%] set the current compiler, if CUSTOM_COMPILER_SCRIPT_URL is set, you can specify custom compilers
+  echo RUN run without updating, even if there is new compiler
+  echo any other args will be passed to the download_%%COMPILER%%.bat
   exit /b 0
 ) else if "%~1"=="-h" (
   echo Help message goes here.
@@ -155,6 +160,7 @@ exit /b 0
 echo Checking for updates...
 call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/OS_INIT_VERSION.txt" "OS_INIT_VERSION.txt"
 set /p GIT_VERSION=< ./OS_INIT_VERSION.txt
+del OS_INIT_VERSION.txt
 if "%GIT_VERSION%" GTR "%VERSION%" (
   echo Update found!
   echo Downloading...
