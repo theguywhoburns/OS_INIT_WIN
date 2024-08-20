@@ -88,7 +88,7 @@ cd tools
 echo Downloading mingw64 tools to compile the %COMPILER%
 if not exist mingw64\ (
   call:download "https://github.com/brechtsanders/winlibs_mingw/releases/download/14.2.0posix-18.1.8-12.0.0-ucrt-r1/winlibs-x86_64-posix-seh-gcc-14.2.0-llvm-18.1.8-mingw-w64ucrt-12.0.0-r1.zip" "mingw64"
-  call:unzip "mingw64" "./"
+  call:unzip "mingw64"
   del mingw64.zip 
   echo Done!
 ) else (
@@ -100,7 +100,7 @@ if not exist mingw64\ (
 echo Downloading qemu
 if not exist "qemu/" (
   call:download "http://lassauge.free.fr/qemu/release/Qemu-0.15.1-windows-Medium.zip" "qemu.zip"
-  call:unzip "qemu.zip" "./"
+  call:unzip "qemu.zip"
   ren "Qemu-windows-0.15.1" "qemu"
   del "qemu.zip"
   echo Done!
@@ -134,21 +134,16 @@ exit /B 0
 @REM start the function with :<funcname> and end with exit /B 0
 @REM ==========================================================
 
-:download
+:download <url> <filename>
 if %2 EQU "" (
   echo ERROR: Must specify a URL and a filename
   exit /b 1
 )
-powershell -Command "Invoke-WebRequest %1 -OutFile %2"
+curl -sLo %2 %1
 set ERR=errorlevel
 exit /B %ERR%
-
-:unzip
-if %2 EQU "" (
-  echo ERROR: Must specify a zip and path
-  exit /b 1
-)
-powershell -Command "Expand-Archive %1 -DestinationPath %2 -Force"
+:unzip <zipfile>
+7z x "%~1" -y > nul
 exit /b 0
 @REM ==========================================================
 @REM END UTILITY SCRIPTS
