@@ -45,9 +45,6 @@ if "%~1"=="--quick" (
   shift
 ) else if "%~1" == "RUN" (
   REM Pass
-) else (
-  echo ERROR: unknown arg %~1, exiting
-  exit /b 1
 )
 
 shift
@@ -86,6 +83,7 @@ echo INTERACTIVE                = %INTERACTIVE%
 echo AVAILABLE_COMPILERS        = %AVAILABLE_COMPILERS%
 echo COMPILER                   = %COMPILER%
 echo CUSTOM_COMPILER_SCRIPT_URL = %CUSTOM_COMPILER_SCRIPT_URL%
+TIMEOUT /T 10
 
 if not exist tools\ mkdir tools
 cd tools
@@ -130,6 +128,11 @@ echo Success!
 echo Launching "download_%COMPILER%.bat"
 call "download_%COMPILER%.bat" %*
 
+if errorlevel 404 (
+  echo ERROR: Failed to download the compiler
+  echo /B errorlevel
+)
+
 @REM end my suffering
 exit /B 0
 
@@ -145,7 +148,10 @@ echo --quick disable INTERACTIVE mode
 echo --custom-compiler-installer=[url] set the CUSTOM_COMPILER_SCRIPT_URL
 echo --compiler=[%AVAILABLE_COMPILERS%] set the current compiler, if CUSTOM_COMPILER_SCRIPT_URL is set, you can specify custom compilers
 echo RUN run without updating, even if there is new compiler
-echo any other args will be passed to the download_%%COMPILER%%.bat
+echo all the args including the un-displayed in here args will be passed to the download_%%COMPILER%%.bat
+echo example compiler args:
+echo --compiler-arch=i686-elf
+echo --compiler-version=14.2.0 (or 18 for clang)
 exit /b 0
 
 :download <url> <filename>
