@@ -45,10 +45,7 @@ if "%~1"=="--quick" (
   shift
 ) else if "%~1" == "RUN" (
   REM Pass
-) else (
-  echo ERROR: unknown arg %~1, exiting
-  exit /b 1
-)
+) 
 
 shift
 goto loop
@@ -176,7 +173,7 @@ echo --help -h display THIS
 echo --quick disable INTERACTIVE mode
 echo --custom-compiler-installer=[url] set the CUSTOM_COMPILER_SCRIPT_URL
 echo --compiler=[%AVAILABLE_COMPILERS%] set the current compiler, if CUSTOM_COMPILER_SCRIPT_URL is set, you can specify custom compilers
-echo RUN run without updating, even if there is new compiler
+echo RUN run without updating, even if there is new version
 echo any other args will be passed to the download_%%COMPILER%%.bat
 exit /b 0
 
