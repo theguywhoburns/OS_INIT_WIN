@@ -49,3 +49,4 @@ echo :addcomment >>  %REGENERATE_CONFIG_BAT%
 echo echo %%* ^>^> config.mk >>  %REGENERATE_CONFIG_BAT%
 echo exit /b 0 >>  %REGENERATE_CONFIG_BAT%
 call %REGENERATE_CONFIG_BAT%
+exit /b 0
