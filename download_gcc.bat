@@ -50,23 +50,37 @@ if not exist %SEARCH_GCC%\ (
 	call:download "!%SEARCH_GCC%!" "%SEARCH_GCC%.zip"
 	call:unzip "%SEARCH_GCC%.zip"
 	del "%SEARCH_GCC%.zip"
+	cd ..
 ) else (
 	echo %SEARCH_GCC% is already installed
 )
 
 cd ../../../
-
-if exist config.mk del config.mk
-echo # %SEARCH_GCC% Makefile config > config.mk
-echo # Built automatically using OS_INIT.bat >> config.mk
-echo # Author https://github.com/theguywhoburns
-echo CC  = %CD%/tools/arch/%GCC_ARCH%/%SEARCH_GCC%/bin/%GCC_ARCH%-gcc.exe >> config.mk
-echo CPP = %CD%/tools/arch/%GCC_ARCH%/%SEARCH_GCC%/bin/%GCC_ARCH%-g++.exe >> config.mk
-echo LS  = %CD%/tools/arch/%GCC_ARCH%/%SEARCH_GCC%/bin/%GCC_ARCH%-ld.exe >> config.mk
-echo ASM = %CD%/tools/mingw64/bin/nasm.exe >> config.mk
-echo CC_ARGS = -ffreestanding -nostdlib >> config.mk
-echo ASM_ARGS = -f bin >> config.mk
-echo LD_ARGS = >> config.mk
+set REGENERATE_CONFIG_BAT=regenerate_config_%SEARCH_GCC%.bat
+if exist %REGENERATE_CONFIG_BAT% del %REGENERATE_CONFIG_BAT%
+echo @REM Automatically generated config re-generator > %REGENERATE_CONFIG_BAT%
+echo @REM You are allowed to edit it but it's not nescesarry for it to work >>  %REGENERATE_CONFIG_BAT%
+echo @REM to add a variable to config.mk call:addvar varname args >>  %REGENERATE_CONFIG_BAT%
+echo set GCC_VERSION=%GCC_VERSION%>> %REGENERATE_CONFIG_BAT%
+echo set GCC_ARCH=%GCC_ARCH%>> %REGENERATE_CONFIG_BAT%
+echo set SEARCH_GCC=%%GCC_ARCH%%-gcc-%%GCC_VERSION%%>>  %REGENERATE_CONFIG_BAT%
+echo if exist config.mk del config.mk >> %REGENERATE_CONFIG_BAT%
+echo echo # Automatically generated %%SEARCH_GCC%% Makefile config by OS_INIT.bat ^> config.mk >>  %REGENERATE_CONFIG_BAT%
+echo call:addcomment # Author https://github.com/theguywhoburns  >> %REGENERATE_CONFIG_BAT%
+echo call:addcomment # To re-generate this config, call %REGENERATE_CONFIG_BAT%  >> %REGENERATE_CONFIG_BAT%
+echo call:addvar CC  = %%CD%%/tools/arch/%%GCC_ARCH%%/%%SEARCH_GCC%%/bin/%%GCC_ARCH%%-gcc.exe  >>  %REGENERATE_CONFIG_BAT%
+echo call:addvar CPP = %%CD%%/tools/arch/%%GCC_ARCH%%/%%SEARCH_GCC%%/bin/%%GCC_ARCH%%-g++.exe  >>  %REGENERATE_CONFIG_BAT%
+echo call:addvar ASM = %%CD%%/tools/mingw64/bin/nasm.exe  >>  %REGENERATE_CONFIG_BAT%
+echo call:addvar CC_ARGS = -ffreestanding -nostdlib >> %REGENERATE_CONFIG_BAT%
+echo call:addvar CPP_ARGS = -ffreestanding -nostdlib >> %REGENERATE_CONFIG_BAT%
+echo exit /b 0 >> %REGENERATE_CONFIG_BAT%
+echo :addvar >>  %REGENERATE_CONFIG_BAT%
+echo echo %%1 = %%* ^>^> config.mk >>  %REGENERATE_CONFIG_BAT%
+echo exit /b 0 >>  %REGENERATE_CONFIG_BAT%
+echo :addcomment >>  %REGENERATE_CONFIG_BAT%
+echo echo %%* ^>^> config.mk >>  %REGENERATE_CONFIG_BAT%
+echo exit /b 0 >>  %REGENERATE_CONFIG_BAT%
+call %REGENERATE_CONFIG_BAT%
 exit /b 0
 
 @REM ==========================================================
