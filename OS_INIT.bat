@@ -119,6 +119,17 @@ if "%CUSTOM_COMPILER_SCRIPT_URL%" EQU "" (
 )
 
 cd ..
+
+if not exist make.bat (
+  echo @ECHO OFF > make.bat
+  echo @REM make.bat >> make.bat
+  echo @REM Here you can set up your basic enviroment variables, intended to be the compilation file >> make.bat
+  echo set MINGW_BIN=%%CD%%/tools/mingw64/bin >> make.bat
+  echo set MAKE=%%MINGW_BIN%%/mingw32-make.exe >> make.bat
+  echo @REM the file may not exist if the OS_INIT.bat is still configuring the enviroment >> make.bat
+  echo set MAKE_CONFIG=%%CD%%/config.mk >> make.bat
+)
+
 echo Downloading "download_%COMPILER%.bat"
 call:download "%CUSTOM_COMPILER_SCRIPT_URL%/download_%COMPILER%.bat" "download_%COMPILER%.bat"
 if not exist "download_%COMPILER%.bat" (
