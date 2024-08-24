@@ -12,7 +12,8 @@ set "AVAILABLE_COMPILERS=gcc clang"
 set "INTERACTIVE=1"
 set "CUSTOM_COMPILER_SCRIPT_URL="
 set "COMPILER=gcc"
-set "VERSION=4"
+set "VERSION=0"
+set "ZIP7_PATH=%CD%\tools\7zip"
 
 if not "%~1" == "RUN" goto:ChekUpdate
 :EndChekUpdate
@@ -91,11 +92,10 @@ if not exist 7zip\ (
   mkdir 7zip
   cd 7zip
   call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/7ZPORT.exe" "7ZPORT.exe"
-  7ZPORT.exe /S
+  7ZPORT.exe /S /D %ZIP7_PATH%
   del 7ZPORT.exe
   cd ..
 ) 
-set "ZIP7_PATH=%CD%\7zip\7z.exe"
 echo Downloading mingw64 tools
 if not exist mingw64\ (
   call:download "https://github.com/brechtsanders/winlibs_mingw/releases/download/14.2.0posix-18.1.8-12.0.0-ucrt-r1/winlibs-x86_64-posix-seh-gcc-14.2.0-llvm-18.1.8-mingw-w64ucrt-12.0.0-r1.zip" "mingw64.zip"
@@ -184,7 +184,7 @@ curl -sLo %2 %1
 set ERR=errorlevel
 exit /B %ERR%
 :unzip <zipfile>
-%ZIP7_PATH% x "%~1" -y > nul
+%ZIP7_PATH%\7z.exe x "%~1" -y > nul
 exit /b 0
 
 :ChekUpdate

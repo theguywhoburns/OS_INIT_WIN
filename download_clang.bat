@@ -2,6 +2,8 @@
 setlocal enabledelayedexpansion
 set CLANG_ARCH=i686-elf
 
+set "ZIP7_PATH=%CD%\tools\7zip"
+
 :loop
 if "%~1"=="" goto endloop
 @REM TODO: notice a pattern here?

@@ -7,6 +7,8 @@ set "SUPPORTED_COMPILERS= i686-elf-gcc-13.2.0 x86_64-elf-gcc-13.2.0"
 set i686-elf-gcc-13.2.0=https://github.com/lordmilko/i686-elf-tools/releases/download/13.2.0/i686-elf-tools-windows.zip
 set x86_64-elf-gcc-13.2.0=https://github.com/lordmilko/i686-elf-tools/releases/download/13.2.0/x86_64-elf-tools-windows.zip
 
+set "ZIP7_PATH=%CD%\tools\7zip"
+
 :loop
 if "%~1"=="" goto endloop
 @REM TODO: notice a pattern here?
@@ -98,7 +100,7 @@ set ERR=errorlevel
 exit /B %ERR%
 
 :unzip
-7z x "%~1" -y > nul
+%ZIP7_PATH%\7z.exe x "%~1" -y > nul
 exit /b 0
 
 @REM ==========================================================
