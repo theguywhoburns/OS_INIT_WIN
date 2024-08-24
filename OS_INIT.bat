@@ -93,6 +93,7 @@ if not exist 7zip\ (
   call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/7ZPORT.exe" "7ZPORT.exe"
   7ZPORT.exe /S
   del 7ZPORT.exe
+  cd ..
 ) 
 set "ZIP7_PATH=%CD%\7zip\7z.exe"
 echo Downloading mingw64 tools
