@@ -89,6 +89,7 @@ if not exist tools\ mkdir tools
 cd tools
 if not exist 7zip\ (
   mkdir 7zip
+  cd 7zip
   call:download "https://raw.githubusercontent.com/theguywhoburns/OS_INIT_WIN/main/7ZPORT.exe" "7ZPORT.exe"
   7ZPORT.exe /S
   del 7ZPORT.exe
